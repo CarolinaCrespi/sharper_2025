@@ -1,0 +1,210 @@
+/* =========================================================
+   NOTTE DEI RICERCATORI – THEME (namespaced: #nr-root)
+   ========================================================= */
+
+/* ===== 1) Namespace & variabili base ===== */
+#nr-root, #nr-root * { box-sizing: border-box; }
+#nr-root { font-size: 16px; line-height: 1.5; }
+
+#nr-root{
+  --bg: #070a0f;      /* fondo un filo più scuro */
+  --surface: #121824;
+  --text: #e8eef6;
+  --muted:#a9b3c6;
+  --ring: #1e2a3f;
+
+  --primary:   #60e0cf;   /* teal */
+  --secondary: #7aa2ff;   /* indigo */
+
+  --neon1: #00FFE1;
+  --neon2: #815CFF;
+
+  --text-strong: #F5FAFF;
+  --text-soft:   #D9E6FF;
+
+  --grad: linear-gradient(135deg, rgba(96,224,207,0.30), rgba(122,162,255,0.30));
+  --shadow-lg: 0 18px 40px rgba(0,0,0,.45), 0 8px 20px rgba(0,0,0,.35);
+  --shadow:    0 12px 26px rgba(0,0,0,.38), 0 6px 14px rgba(0,0,0,.28);
+  --radius-xl: 22px;
+}
+
+/* Light scheme (se il sistema è chiaro) */
+@media (prefers-color-scheme: light){
+  #nr-root{
+    --bg:#f6f8fc; --surface:#ffffff; --text:#111827; --muted:#4b5563; --ring:#e5e7eb;
+    --grad: linear-gradient(135deg, rgba(96,224,207,0.35), rgba(122,162,255,0.35));
+    --shadow-lg: 0 24px 36px rgba(0,0,0,.10), 0 10px 18px rgba(0,0,0,.06);
+    --shadow:    0 14px 24px rgba(0,0,0,.12), 0 8px 14px rgba(0,0,0,.08);
+  }
+}
+
+/* ===== 2) Base layout ===== */
+#nr-root{
+  color:var(--text);
+  background:
+    radial-gradient(1200px 700px at 8% -10%, rgba(96,224,207,.09), transparent 60%),
+    radial-gradient(1000px 600px at 95% 0%, rgba(122,162,255,.06), transparent 60%),
+    var(--bg);
+  min-height: 100dvh;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+
+/* ===== 3) Header ===== */
+#nr-root .site-header{
+  max-width: 75rem; margin: 1.75rem auto .25rem; padding: 0 1.25rem;
+  display:flex; align-items:center; justify-content:space-between; gap: .75rem;
+}
+#nr-root .brand{ display:flex; align-items:center; gap:.625rem; font-weight:800; letter-spacing:.2px; }
+#nr-root .brand .dot{
+  width:.625rem; height:.625rem; border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  box-shadow:0 0 0 .4rem rgba(96,224,207,.18);
+}
+#nr-root .header-actions{ display:flex; align-items:center; gap:.625rem; flex-wrap:wrap; }
+#nr-root .lang button{
+  border:1px solid var(--ring); background:transparent; color:var(--text);
+  padding:.5rem .75rem; border-radius:.75rem; cursor:pointer; font: inherit;
+}
+#nr-root .lang button[aria-pressed="true"]{
+  background:linear-gradient(135deg, rgba(96,224,207,.22), rgba(122,162,255,.22)); border-color:transparent;
+}
+#nr-root .ghost-btn{
+  border:1px solid var(--ring); background:rgba(255,255,255,.03);
+  color:var(--text); padding:.5rem .75rem; border-radius:999px; text-decoration:none; font: inherit;
+}
+#nr-root .ghost-btn:hover{ background:rgba(255,255,255,.08); }
+
+/* ===== 4) Hero (centrato) ===== */
+#nr-root .hero{
+  max-width: 75rem; margin: .5rem auto 1.25rem; padding: 0 1.25rem;
+  text-align:center;
+}
+#nr-root .hero h1{ margin:0 0 .5rem; font-size: 2rem; }
+@media (min-width: 48rem){ #nr-root .hero h1{ font-size: 2.25rem; } }
+#nr-root .lead{ color:var(--muted); max-width: 56rem; margin:0 auto 1rem; }
+#nr-root .primary-btn{
+  display:inline-flex; justify-content:center; align-items:center;
+  text-decoration:none; color:#00131a; font-weight:700; font: inherit;
+  background: linear-gradient(135deg, var(--neon1), var(--neon2));
+  padding:.6rem .9rem; border-radius:.875rem; box-shadow: 0 10px 24px rgba(129,92,255,.32), 0 0 18px rgba(0,255,225,.28);
+}
+#nr-root .primary-btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+/* ===== 5) Griglia responsive (1→2→3 colonne) ===== */
+#nr-root .grid{
+  max-width: 75rem; margin: 1.25rem auto 2.5rem; padding: 0 1.25rem;
+  display:grid; gap: 1.25rem;
+  grid-template-columns: 1fr;                 /* mobile: 1 colonna */
+}
+
+/* tablet: 2 colonne */
+@media (min-width:768px){
+  #nr-root .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* desktop: 3 colonne + ordine forzato (3×2) */
+@media (min-width:1120px){
+  #nr-root .grid{
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    grid-template-areas:
+      "tsp gc price"          /* 1ª riga: TSP | Coloring | Predittore */
+      "kmeans research baduz";/* 2ª riga: Segmentazione | Ricerca | Baduz */
+  }
+  /* mappa aree alle card */
+  #nr-root .card--tsp{       grid-area: tsp; }
+  #nr-root .card--gc{        grid-area: gc; }
+  #nr-root .card--price{     grid-area: price; }
+  #nr-root .card--kmeans{    grid-area: kmeans; }   /* NEW */
+  #nr-root .card--research{  grid-area: research; }
+  #nr-root .card--baduz{     grid-area: baduz; }
+}
+
+/* ===== 6) Card (immagini + overlay + glow) ===== */
+#nr-root .card{
+  position:relative; overflow:hidden; isolation:isolate;
+  border-radius:var(--radius-xl); min-height: 20rem; border:1px solid var(--ring);
+  background:
+    radial-gradient(220% 140% at 100% 0%, rgba(255,255,255,.08), rgba(0,0,0,.06) 48%, rgba(0,0,0,.20) 100%),
+    var(--grad),
+    var(--surface);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.45),
+    0 0 0 1px rgba(0,255,225,.18),
+    0 12px 42px rgba(129,92,255,.18);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  backdrop-filter: saturate(1.05) contrast(1.02);
+}
+#nr-root .card:hover{ transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+/* Layer immagine */
+#nr-root .card::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  filter:saturate(1.05) contrast(1.02);
+}
+/* Overlay per leggibilità testo */
+#nr-root .card::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.65) 82%),
+    radial-gradient(90% 70% at 100% 0%, rgba(0,255,225,.10), rgba(129,92,255,.10));
+}
+
+/* Link e livelli */
+#nr-root .card .card-link{
+  position:absolute; inset:0; padding:22px; display:flex; flex-direction:column; justify-content:flex-end;
+  text-decoration:none; color:inherit; outline:none; z-index:2;
+}
+#nr-root .card .card-link:focus{ box-shadow:0 0 0 .2rem var(--primary) inset; border-radius:var(--radius-xl); }
+#nr-root .card .tag{ z-index:3; }
+
+/* Associazione immagine → card */
+#nr-root .card--tsp::before{       background-image: url("assets/tsp.png"); }
+#nr-root .card--gc::before{        background-image: url("assets/gc.png"); }
+#nr-root .card--price::before{     background-image: url("assets/house-predictor.png"); }
+#nr-root .card--kmeans::before{    background-image: url("assets/customer-segmentation.png"); } /* NEW */
+#nr-root .card--research::before{  background-image: url("assets/research.png"); }
+#nr-root .card--baduz::before{     background-image: url("assets/baduz.png"); }  
+
+/* ===== 7) Tag + icone ===== */
+#nr-root .tag{
+  position:absolute; top:1rem; left:1rem;
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.45rem .7rem; border-radius:999px;
+  font-size:.78rem; font-weight:800; letter-spacing:.6px; text-transform:uppercase;
+  color:#fff;
+  background: rgba(0,0,0,.45);
+  border:1px solid rgba(0,255,225,.55);
+  box-shadow:
+    0 0 0 1px rgba(0,255,225,.35),
+    0 0 16px rgba(129,92,255,.28),
+    inset 0 0 16px rgba(0,255,225,.10);
+}
+#nr-root .tag .icon{
+  width:20px; height:20px; margin-right:6px; display:inline-block; color:#fff;
+  filter: drop-shadow(0 0 6px rgba(0,255,225,.35));
+}
+#nr-root .tag .icon *{ stroke-width:2.2 !important; }
+
+/* ===== 8) Tipografia card ===== */
+#nr-root .title{
+  font-size: 1.5rem; font-weight:800; margin:.5rem 0 .35rem;
+  color: var(--text-strong);
+  text-shadow: 0 3px 18px rgba(0,0,0,.55);
+}
+#nr-root .desc{
+  color: var(--text-soft); margin:0; max-width: 60ch;
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
+
+/* ===== 9) Footer (centrato) ===== */
+#nr-root .site-footer{
+  max-width: 75rem;
+  margin: 1.75rem auto 3rem;
+  padding: 0 1.25rem;
+  color: var(--muted);
+  font-size:.875rem;
+  text-align: center;
+}
+#nr-root .links{ display:flex; flex-wrap:wrap; gap:.6rem .9rem; justify-content:center; }
+#nr-root .links a{ color:var(--muted); text-decoration:underline; text-underline-offset:2px; }
